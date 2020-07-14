@@ -85,29 +85,5 @@ for item in sorted_keylist:
     if rank > 5:
         break
 
-for news in rank_list:
-    print(news)
-
 print('time : {}'.format(time.time() - start))
-
-# # Rank
-# print('>>> rank <<<')
-# sort_keylist = sorted(keylist.items(), reverse=True, key=operator.itemgetter(1))
-# rank_index = 0
-# rank_list = []
-# for key, value in sort_keylist:
-#     print(key, value)
-#     rank_index += 1
-#     rank_list.append({ 'rankey' : key })
-#     if rank_index > 3:
-#         break
-
-# # 관련기사 추출
-# print('>>> news <<<')
-# for rank in rank_list:
-#     print('issue : {}'.format(rank))
-#     for news in news_list:
-#         keywords = news['keywords']
-#         if rank['rankey'] in keywords:
-#             print(news['news'])
 
