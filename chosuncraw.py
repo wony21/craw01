@@ -64,19 +64,18 @@ for node1_var in node1:
                 keylist.append({'key' : key, 'count' : 1 })
 
 # keyword의 전체 합 구하기
-for news in news_list:
-    ranksum = 0
-    rankmax = 0
-    for word in news['keywords']:
-        items = list(filter(lambda x: x['key'] == key, keylist))
-        if len(items) > 0:
-            ranksum += items[0]['count']
-            if rankmax < items[0]['count']:
-                rankmax = items[0]['count']
-    news['rankmax'] = int(rankmax)
-    news['ranksum'] = float(ranksum / len(news['keywords']))
-
-rank_list = sorted(news_list, reverse=True, key=lambda k: (k['rankmax'], k['ranksum']))
+# for news in news_list:
+#     ranksum = 0
+#     rankmax = 0
+#     for word in news['keywords']:
+#         items = list(filter(lambda x: x['key'] == key, keylist))
+#         if len(items) > 0:
+#             ranksum += items[0]['count']
+#             if rankmax < items[0]['count']:
+#                 rankmax = items[0]['count']
+#     news['rankmax'] = int(rankmax)
+#     news['ranksum'] = float(ranksum / len(news['keywords']))
+# rank_list = sorted(news_list, reverse=True, key=lambda k: (k['rankmax'], k['ranksum']))
 
 sorted_keylist = sorted(keylist, reverse=True, key=lambda k: k['count'])
 rank = 0
