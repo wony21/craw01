@@ -4,18 +4,20 @@ import woorimal as woori
 import operator
 import requests
 import re
+import time
 
-def news_text_trim(text):
-    # return text.replace('"', '').replace('.', '').replace('#', '').replace('\'', '').replace('·', ' ')
-    # return text.replace('"', '').replace('.', '').replace('#', '')
-    pass
+# def news_text_trim(text):
+#     # return text.replace('"', '').replace('.', '').replace('#', '').replace('\'', '').replace('·', ' ')
+#     # return text.replace('"', '').replace('.', '').replace('#', '')
+#     pass
 
-def news_clean_text(text):
-    pattern = '[^\w\s]'
-    repl = ''
-    ret_text = re.sub(pattern=pattern, repl=repl, string=text)
-    return ret_text
+# def news_clean_text(text):
+#     pattern = '[^\w\s]'
+#     repl = ''
+#     ret_text = re.sub(pattern=pattern, repl=repl, string=text)
+#     return ret_text
 
+start = time.time()
 okt = Okt()
 source = requests.get('https://www.chosun.com/').content
 soup = BeautifulSoup(source, 'html.parser', from_encoding='utf-8')
@@ -38,16 +40,12 @@ for node1_var in node1:
     a = node1_var.find('a')
     if a:
         news_text = a.text.strip().replace('\n', '')
-        #clean_text = news_clean_text(news_text)
-        #trim_news = news_text_trim(clean_text)
         keywords = okt.nouns(news_text)
     # img에 대한 문구
     img = node1_var.find('img')
     if img:
         if img.has_attr('alt'):
             news_text = img['alt'].strip().replace('\n', '')
-            #clean_text = news_clean_text(news_text)
-            #trim_news = news_text_trim(clean_text)
             keywords = okt.nouns(news_text)
     # news_list 생성
     news_item = {
@@ -58,38 +56,40 @@ for node1_var in node1:
 
     # 단어들의 Rank 구하기
     for key in keywords:
-        items = list(filter(lambda x: x['key'] == key, keylist))
-        if len(items) > 0:
-            items[0]['count'] = items[0]['count'] + 1
-        else:
-            keylist.append({'key' : key, 'count' : 1 })
+        if not woori.ignore_keyword(key):
+            items = list(filter(lambda x: x['key'] == key, keylist))
+            if len(items) > 0:
+                items[0]['count'] = items[0]['count'] + 1
+            else:
+                keylist.append({'key' : key, 'count' : 1 })
 
 # keyword의 전체 합 구하기
 for news in news_list:
     ranksum = 0
     rankmax = 0
     for word in news['keywords']:
-        if word in keylist.keys():
-            ranksum += keylist[word]
-            if rankmax < keylist[word]:
-                rankmax = keylist[word]
+        items = list(filter(lambda x: x['key'] == key, keylist))
+        if len(items) > 0:
+            ranksum += items[0]['count']
+            if rankmax < items[0]['count']:
+                rankmax = items[0]['count']
     news['rankmax'] = int(rankmax)
     news['ranksum'] = float(ranksum / len(news['keywords']))
 
 rank_list = sorted(news_list, reverse=True, key=lambda k: (k['rankmax'], k['ranksum']))
 
-sorted_keylist = sorted(keylist.items(), reverse=True, key=operator.itemgetter(1))
+sorted_keylist = sorted(keylist, reverse=True, key=lambda k: k['count'])
 rank = 0
-for key in sorted_keylist:
-    print('{} {}'.format(key, sorted_keylist[key]))
+for item in sorted_keylist:
+    print('{} {}'.format(item['key'], item['count']))
     rank += 1
     if rank > 5:
         break
-    # print('{} {}'.format(key, keylist[key]))
 
+for news in rank_list:
+    print(news)
 
-#for news in rank_list:
-#    print(news)
+print('time : {}'.format(time.time() - start))
 
 # # Rank
 # print('>>> rank <<<')
