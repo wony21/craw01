@@ -56,12 +56,12 @@ for node1_var in node1:
 
     # 단어들의 Rank 구하기
     for key in keywords:
-        if not woori.ignore_keyword(key):
-            items = list(filter(lambda x: x['key'] == key, keylist))
-            if len(items) > 0:
-                items[0]['count'] = items[0]['count'] + 1
-            else:
-                keylist.append({'key' : key, 'count' : 1 })
+        # if not woori.ignore_keyword(key):
+        items = list(filter(lambda x: x['key'] == key, keylist))
+        if len(items) > 0:
+            items[0]['count'] = items[0]['count'] + 1
+        else:
+            keylist.append({'key' : key, 'count' : 1 })
 
 # keyword의 전체 합 구하기
 # for news in news_list:
