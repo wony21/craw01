@@ -1,3 +1,5 @@
+# https://www.donga.com/
+
 from bs4 import BeautifulSoup
 from konlpy.tag import Okt
 from konlpy.tag import Kkma
@@ -9,43 +11,40 @@ import requests
 import re
 import time
 
-start = time.time()
+# def news_text_trim(text):
+#     # return text.replace('"', '').replace('.', '').replace('#', '').replace('\'', '').replace('·', ' ')
+#     # return text.replace('"', '').replace('.', '').replace('#', '')
+#     pass
 
+# def news_clean_text(text):
+#     pattern = '[^\w\s]'
+#     repl = ''
+#     ret_text = re.sub(pattern=pattern, repl=repl, string=text)
+#     return ret_text
+
+start = time.time()
 komor = Komoran()
 hannan = Hannanum()
 kkma = Kkma()
 okt = Okt()
-source = requests.get('https://www.chosun.com/').content
+source = requests.get('https://www.donga.com/').content
 soup = BeautifulSoup(source, 'html.parser', from_encoding='utf-8')
 
 # top news
-top_news = soup.find('div', {'class' : 'top_news'} )
-top_news_title = top_news.find('span', {'class' : 'center_tit'})
-print('### Top News ###')
-print(top_news_title.text)
+# top_news = soup.find('div', {'class' : 'top_news'} )
+# top_news_title = top_news.find('span', {'class' : 'center_tit'})
+# print('### Top News ###')
+# print(top_news_title.text)
 
 # news item
-node1 = soup.find_all('dl', {'class':'news_item'})
+node1 = soup.find_all('span', {'class':'txt'})
 news_list = []
 keylist = []
 for node1_var in node1:
     # news_text : 기사문글
-    news_text = ''
+    news_text = node1_var.text.strip().replace('\n', '')
     # kewords : 단어 리스트
-    keywords = []
-    # a link에 대한 문구
-    a = node1_var.find('a')
-    if a:
-        news_text = a.text.strip().replace('\n', '')
-        keywords = komor.nouns(news_text)
-        #keywords = okt.pos(news_text)
-    # img에 대한 문구
-    img = node1_var.find('img')
-    if img:
-        if img.has_attr('alt'):
-            news_text = img['alt'].strip().replace('\n', '')
-            keywords = komor.nouns(news_text)
-            #keywords = okt.pos(news_text)
+    keywords = komor.nouns(news_text)
     # news_list 생성
     news_item = {
         'news' : news_text,
@@ -109,3 +108,4 @@ for item in sort_list:
         break
 
 print('time : {}'.format(time.time() - start))
+

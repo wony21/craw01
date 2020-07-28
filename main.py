@@ -1,9 +1,38 @@
 from konlpy.tag import Okt
+from konlpy.tag import Kkma
+import pandas as pd
+from bs4 import BeautifulSoup
+import requests
 
-okt = Okt()
-text = okt.pos('부모가 과학자… 초등생이 과연 이 유전자 논문을 썼을까?')
+# source = requests.get('https://joongang.joins.com/').content
+# soup = BeautifulSoup(source, 'html.parser', from_encoding='utf-8')
+# node1 = soup.find_all('ul', {'class':'list_vertical'})
 
-print(text)
+source = requests.get('https://www.chosun.com/').content
+soup = BeautifulSoup(source, 'html.parser', from_encoding='utf-8')
+node1 = soup.find_all('dl', {'class':'news_item'})
+for node in node1:
+    print(node.text)
+
+
+
+
+
+
+
+# org_text = '마음건강길 오프라 원프리, 치질연고를 얼굴에 발랐다고? 왜?'
+
+# okt = Okt()
+# text = okt.pos(org_text)
+# print(text)
+
+# kkma = Kkma()
+# text2 = kkma.pos(org_text)
+# print(text2)
+# text3 = kkma.nouns(org_text)
+# print(text3)
+
+
 
 
 
