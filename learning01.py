@@ -30,7 +30,7 @@ for node in node1:
 for news in news_list:
     print(news)
 
-host = 'localhost'
+host = 'ec2-54-180-142-147.ap-northeast-2.compute.amazonaws.com'
 port = 27017
 
 print('DB insert...')
