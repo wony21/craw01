@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from konlpy.tag import Kkma
+#from konlpy.tag import Kkma
 import requests
 import datetime
 import pymongo

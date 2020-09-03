@@ -15,9 +15,7 @@ div_layout_bg = div_fusion.find('div', {'class':'layout--bg box-lg--pad-left-xs 
 for tag in div_layout_bg:
     if tag.name == 'header':
         tag.extract()
-
-
-
+        
 # span_list = div_layout_bg.find_all('span')
 
 div_news_list = div_layout_bg.find_all('div', {'class':'story-card-component story-card__headline-container | text--overflow-ellipsis text--left'})
