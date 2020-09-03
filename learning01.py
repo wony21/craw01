@@ -53,13 +53,16 @@ for node in node1:
 for news in news_list:
     print(news)
 
-host = 'ec2-54-180-142-147.ap-northeast-2.compute.amazonaws.com'
-port = 27017
+if len(news_list) > 0:
+    #host = 'ec2-54-180-142-147.ap-northeast-2.compute.amazonaws.com'
+    host = 'mongodb://moya:moya2020@ec2-54-180-142-147.ap-northeast-2.compute.amazonaws.com:39091/moya?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false'
+    port = 39091
 
-print('DB insert...')
-connection = pymongo.MongoClient(host, port)
-database = connection.get_database('moya')
-collection = database.get_collection('news')
-collection.insert_many(news_list)
-connection.close()
+    print('DB insert...')
+    connection = pymongo.MongoClient(host)
+    database = connection.get_database('moya')
+    collection = database.get_collection('news')
+    collection.insert_many(news_list)
+    connection.close()
+
 print('Program completed.')
