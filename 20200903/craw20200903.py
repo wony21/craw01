@@ -25,6 +25,7 @@ now = datetime.datetime.now()
 today = now.strftime("%Y%m%d%H%M%S")
 
 news_text_list = []
+news_href_list = []
 news_list = []
 for div_news in div_news_list:
     atag = div_news.find('a')
@@ -34,10 +35,14 @@ for div_news in div_news_list:
     if href_text.startswith('/'):
         href_text = 'https://www.chosun.com' + href_text
     if len(news_text) > 0:
-        ext_list = list(filter(lambda x: x == news_text, news_text_list))
+        ext_list = list(filter(lambda x: x.replace(' ', '') == news_text.replace(' ', ''), news_text_list))
         if len(ext_list) > 0:
             continue
+        ext_href_list = list(filter(lambda x: x == href_text, news_href_list))
+        if len(ext_href_list) > 0:
+            continue
         news_text_list.append(news_text)
+        news_href_list.append(href_text)
         words = kkma.nouns(news_text)
         item = {
             'news_date':today,
