@@ -53,7 +53,7 @@ for div_news in div_news_list:
         news_list.append(item)
 
 for news in news_list:
-    print(news['news_text'], news['href'])
+    print(news['news_text'], news['href'], news['words'])
 
 if len(news_list) > 0:
     host = 'mongodb://moya:moya2020@ec2-54-180-142-147.ap-northeast-2.compute.amazonaws.com:39091/moya?authSource=admin&readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false'
