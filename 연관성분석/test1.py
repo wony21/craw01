@@ -55,12 +55,9 @@ print(dataset)
 
 # gensim 방식 (Word2Vec)
 model = Word2Vec(dataset, size=300, window=3, min_count=0.5, workers=1)
-
 word_vectors = model.wv
-
 vocabs = word_vectors.vocab.keys()
 word_vectors_list = [word_vectors[v] for v in vocabs]
-
 result_text = ''
 text_center = input('입력:')
 for text in dataset:
@@ -69,7 +66,6 @@ for text in dataset:
         sim = word_vectors.similarity(w1=text_center,w2=word)
         #print('[' + text_center + ']','과', '[' + word + ']', '연관도',sim)
         result_text += word + ' ' + str(sim) + '\n'
-
 f = open('result.txt', 'w', encoding='utf-8')
 f.write(result_text)
 f.close()
